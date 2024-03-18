@@ -8,6 +8,10 @@ on:
         description: "Git repository URL"
         required: true
         default: "https://github.com/android/sunflower"
+      workDir:
+        description: "Working Directory"
+        required: false
+        default: ""
       jdkVersion:
         description: "OpenJDK version to use: 8 / 11 / 17 etc."
         required: false
@@ -31,7 +35,7 @@ jobs:
         run: git clone --depth=1 ${{ github.event.inputs.repository }} workspace
 
       - name: Build APK
-        working-directory: ./workspace
+        working-directory: ./workspace/${{ github.event.inputs.workDir }}
         run: |
           if [ ! -f "gradlew" ]; then gradle wrapper; fi
           chmod +x gradlew
